@@ -1,12 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Calendar, CheckCircle, CreditCard, LogOut, Settings, User, XCircle } from "lucide-react";
 
 export default function DashboardPage() {
-  const [userName] = useState("Mitglied"); // Mock user
+  const router = useRouter();
+  const [userName, setUserName] = useState("Mitglied");
+
+  useEffect(() => {
+    const stored = localStorage.getItem("kuaawo_user");
+    if (stored) {
+      const user = JSON.parse(stored);
+      setUserName(user.name || "Mitglied");
+    }
+  }, []);
 
   // Mock subscription status – will be replaced with Firestore data
   const [subscription] = useState({
@@ -35,7 +45,7 @@ export default function DashboardPage() {
           </Link>
         </nav>
         <div style={{ marginTop: "auto" }}>
-          <button style={{ background: "transparent", border: "none", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "var(--spacing-xs)", cursor: "pointer", transition: "color 0.2s" }} onMouseOver={(e) => e.currentTarget.style.color = 'var(--danger)'} onMouseOut={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}>
+          <button onClick={() => { localStorage.removeItem("kuaawo_user"); router.push("/login"); }} style={{ background: "transparent", border: "none", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "var(--spacing-xs)", cursor: "pointer", transition: "color 0.2s" }} onMouseOver={(e) => e.currentTarget.style.color = 'var(--danger)'} onMouseOut={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}>
             <LogOut size={18} /> Abmelden
           </button>
         </div>

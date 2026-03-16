@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-// import { auth } from "@/lib/firebase";
-// import { signInWithEmailAndPassword } from "firebase/auth";
 import { ArrowLeft, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -17,14 +17,24 @@ export default function LoginPage() {
     setIsLoading(true);
     setError("");
 
-    try {
-      // await signInWithEmailAndPassword(auth, email, password);
-      console.log("Login submitted", email);
-      setTimeout(() => setIsLoading(false), 1000);
-    } catch (err: any) {
-      setError(err.message || "Anmeldung fehlgeschlagen");
+    // Demo-Modus: Jeder Login leitet zum Dashboard weiter
+    // Wird später durch Firebase Auth ersetzt
+    if (!email || !password) {
+      setError("Bitte E-Mail und Passwort eingeben.");
       setIsLoading(false);
+      return;
     }
+
+    // Simulate short loading, then redirect
+    setTimeout(() => {
+      // Store demo session
+      localStorage.setItem("kuaawo_user", JSON.stringify({
+        email,
+        name: email.split("@")[0],
+        loggedIn: true,
+      }));
+      router.push("/dashboard");
+    }, 800);
   };
 
   return (
@@ -35,7 +45,7 @@ export default function LoginPage() {
         </Link>
         <h2 style={{ fontSize: "var(--text-2xl)", color: "var(--accent)", marginBottom: "var(--spacing-xs)" }}>Willkommen zurück</h2>
         <p style={{ color: "var(--text-secondary)", marginBottom: "var(--spacing-md)" }}>Melde dich im KuAaWo Mitglieder-Portal an.</p>
-        
+
         {error && <div style={{ background: "rgba(255, 50, 50, 0.1)", color: "var(--danger)", padding: "0.75rem", borderRadius: "var(--radius-sm)", marginBottom: "var(--spacing-md)", fontSize: "var(--text-sm)", border: "1px solid rgba(255, 50, 50, 0.2)" }}>
           {error}
         </div>}
@@ -43,30 +53,30 @@ export default function LoginPage() {
         <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "var(--spacing-sm)" }}>
           <div className="input-group">
             <label className="input-label" htmlFor="email">E-Mail Adresse</label>
-            <input 
-              id="email" 
-              type="email" 
-              placeholder="mitglied@kuaawo.org" 
-              className="input-field" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              required 
+            <input
+              id="email"
+              type="email"
+              placeholder="mitglied@kuaawo.org"
+              className="input-field"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           <div className="input-group">
             <label className="input-label" htmlFor="password">Passwort</label>
-            <input 
-              id="password" 
-              type="password" 
-              placeholder="••••••••" 
-              className="input-field" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
+            <input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              className="input-field"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
           <button type="submit" className="btn btn-primary" style={{ width: "100%", marginTop: "var(--spacing-xs)" }} disabled={isLoading}>
-            {isLoading ? <Loader2 size={20} className="animate-spin" style={{ animation: "spin 1s linear infinite" }} /> : "Anmelden"}
+            {isLoading ? <Loader2 size={20} style={{ animation: "spin 1s linear infinite" }} /> : "Anmelden"}
           </button>
         </form>
 
