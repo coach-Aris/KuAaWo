@@ -31,21 +31,21 @@ export default function Home() {
              priority
            />
            {/* Dark Layer / Overlay */}
-           <div style={{ position: "absolute", inset: 0, background: "rgba(0, 0, 0, 0.75)" }}></div>
+           <div style={{ position: "absolute", inset: 0, background: "rgba(0, 0, 0, 0.88)" }}></div>
            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 0%, var(--bg) 100%)" }}></div>
         </div>
 
         {/* Hero Content - Centered */}
         <div className="container" style={{ position: "relative", zIndex: 10, display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
           <div className="animate-fade-in" style={{ opacity: 0, display: "flex", flexDirection: "column", alignItems: "center", maxWidth: "800px" }}>
-            <span style={{ display: "inline-block", background: "var(--glass-bg)", border: "1px solid var(--glass-border)", padding: "0.4rem 1.5rem", borderRadius: "var(--radius-full)", fontSize: "var(--text-sm)", color: "var(--accent)", marginBottom: "var(--spacing-md)", fontWeight: 600, boxShadow: "var(--shadow-sm)", backdropFilter: "blur(8px)" }}>
-              Kulturverein Aare Worblaufen
-            </span>
             <h1 className="title-gradient" style={{ fontSize: "clamp(3.5rem, 8vw, 6rem)", marginBottom: "var(--spacing-sm)", letterSpacing: "-3px", lineHeight: 1.05, textShadow: "0 10px 30px rgba(0,0,0,0.8)" }}>
-              Der Treffpunkt für den <br /> Underground Sound.
+              Ku<span style={{ color: "var(--accent)" }}>Aa</span>Wo
             </h1>
-            <p style={{ color: "var(--text-secondary)", fontSize: "var(--text-lg)", marginBottom: "var(--spacing-lg)", lineHeight: 1.6, maxWidth: "600px" }}>
-              Zugang zu unserem exklusiven Bandraum. Eine düstere Atmosphäre für kreativen Fokus mit erstklassigem Equipment, direkt an der Aare.
+            <p style={{ color: "var(--text-secondary)", fontSize: "var(--text-xl)", marginBottom: "var(--spacing-xs)", lineHeight: 1.4 }}>
+              Kulturverein Aare Worblaufen
+            </p>
+            <p style={{ color: "var(--text-secondary)", fontSize: "var(--text-base)", marginBottom: "var(--spacing-lg)", lineHeight: 1.6, maxWidth: "600px", opacity: 0.7 }}>
+              Bandraum &middot; Events &middot; Kultur direkt an der Aare
             </p>
             <div style={{ display: "flex", gap: "var(--spacing-sm)", justifyContent: "center" }}>
               <Link href="/register" className="btn btn-primary btn-lg">
@@ -63,8 +63,7 @@ export default function Home() {
       <div className="container">
         <section id="features" style={{ paddingTop: "var(--spacing-xl)", paddingBottom: "var(--spacing-lg)" }}>
           <div style={{ textAlign: "center", marginBottom: "var(--spacing-lg)" }}>
-            <h2 style={{ fontSize: "var(--text-3xl)", color: "var(--text-primary)", letterSpacing: "-1px" }}>Düster & Präzise.</h2>
-            <p style={{ color: "var(--text-secondary)", fontSize: "var(--text-lg)" }}>Professionelles Equipment in einer fokussierten Umgebung.</p>
+            <h2 style={{ fontSize: "var(--text-3xl)", color: "var(--text-primary)", letterSpacing: "-1px" }}>Unser Equipment</h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "var(--spacing-md)" }}>
             <div className="glass-panel animate-fade-in delay-100" style={{ opacity: 0 }}>
