@@ -4,11 +4,12 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 import { Calendar, ChevronLeft, ChevronRight, Download, LogOut, Plus, Settings, User, X } from "lucide-react";
+import MobileNav from "@/components/MobileNav";
 
 type CalEvent = {
   id: string;
   title: string;
-  date: string; // YYYY-MM-DD
+  date: string;
   time: string;
   endTime: string;
   location: string;
@@ -45,7 +46,6 @@ export default function CalendarPage() {
   const [form, setForm] = useState<BookingForm>({ title: "", date: "", time: "18:00", endTime: "19:00", location: "Bandraum", description: "" });
 
   const firstDay = new Date(currentYear, currentMonth, 1);
-  // Get Monday-based weekday index (0=Mon ... 6=Sun)
   const startOffset = (firstDay.getDay() + 6) % 7;
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
@@ -93,7 +93,6 @@ export default function CalendarPage() {
     return day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
   };
 
-  // Build grid cells
   const cells: (number | null)[] = [];
   for (let i = 0; i < startOffset; i++) cells.push(null);
   for (let d = 1; d <= daysInMonth; d++) cells.push(d);
@@ -125,26 +124,26 @@ export default function CalendarPage() {
       </aside>
 
       {/* Main */}
-      <main className="main-content" style={{ padding: "var(--spacing-md)", overflow: "auto" }}>
+      <main className="main-content" style={{ overflow: "auto" }}>
         {/* Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--spacing-md)", flexWrap: "wrap", gap: "var(--spacing-sm)" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "var(--spacing-md)" }}>
-            <button onClick={prevMonth} style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)", color: "var(--text-primary)", borderRadius: "var(--radius-sm)", padding: "0.4rem 0.6rem", cursor: "pointer", display: "flex", alignItems: "center" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--spacing-sm)", flexWrap: "wrap", gap: "0.5rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <button onClick={prevMonth} style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)", color: "var(--text-primary)", borderRadius: "var(--radius-sm)", padding: "0.4rem", cursor: "pointer", display: "flex", alignItems: "center" }}>
               <ChevronLeft size={18} />
             </button>
-            <h1 style={{ fontSize: "var(--text-2xl)", fontWeight: 700, minWidth: "200px", textAlign: "center" }}>
+            <h1 style={{ fontSize: "clamp(1.1rem, 4vw, var(--text-2xl))", fontWeight: 700, minWidth: "0", textAlign: "center", whiteSpace: "nowrap" }}>
               {MONTHS[currentMonth]} {currentYear}
             </h1>
-            <button onClick={nextMonth} style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)", color: "var(--text-primary)", borderRadius: "var(--radius-sm)", padding: "0.4rem 0.6rem", cursor: "pointer", display: "flex", alignItems: "center" }}>
+            <button onClick={nextMonth} style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)", color: "var(--text-primary)", borderRadius: "var(--radius-sm)", padding: "0.4rem", cursor: "pointer", display: "flex", alignItems: "center" }}>
               <ChevronRight size={18} />
             </button>
           </div>
-          <button onClick={() => setShowBookingForm(true)} className="btn btn-primary" style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+          <button onClick={() => setShowBookingForm(true)} className="btn btn-primary" style={{ display: "flex", alignItems: "center", gap: "0.4rem", padding: "0.5rem 1rem", fontSize: "var(--text-sm)" }}>
             <Plus size={16} /> Raumanmeldung
           </button>
         </div>
 
-        <div style={{ position: "relative", width: "100%", height: "200px", borderRadius: "var(--radius-md)", overflow: "hidden", marginBottom: "var(--spacing-lg)", boxShadow: "var(--shadow-sm)", border: "1px solid var(--glass-border)" }} className="animate-fade-in delay-200">
+        <div style={{ position: "relative", width: "100%", height: "clamp(100px, 15vw, 200px)", borderRadius: "var(--radius-md)", overflow: "hidden", marginBottom: "var(--spacing-sm)", boxShadow: "var(--shadow-sm)", border: "1px solid var(--glass-border)" }} className="animate-fade-in delay-200">
           <Image src="/hero-image.png" alt="Kulturverein Aare Worblaufen" fill style={{ objectFit: "cover", objectPosition: "center" }} priority />
         </div>
 
@@ -153,7 +152,7 @@ export default function CalendarPage() {
           {/* Weekday headers */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", borderBottom: "1px solid var(--glass-border)" }}>
             {WEEKDAYS.map(d => (
-              <div key={d} style={{ padding: "0.6rem", textAlign: "center", fontSize: "var(--text-sm)", color: "var(--text-secondary)", fontWeight: 600, borderRight: "1px solid var(--glass-border)" }}>
+              <div key={d} style={{ padding: "0.4rem", textAlign: "center", fontSize: "var(--text-xs)", color: "var(--text-secondary)", fontWeight: 600, borderRight: "1px solid var(--glass-border)" }}>
                 {d}
               </div>
             ))}
@@ -166,39 +165,43 @@ export default function CalendarPage() {
               return (
                 <div
                   key={i}
+                  onClick={() => {
+                    if (dayEvents.length > 0) setSelectedEvent(dayEvents[0]);
+                  }}
                   style={{
-                    minHeight: "100px",
-                    padding: "0.4rem 0.5rem",
+                    minHeight: "clamp(48px, 10vw, 100px)",
+                    padding: "0.25rem",
                     borderRight: "1px solid var(--glass-border)",
                     borderBottom: "1px solid var(--glass-border)",
                     background: todayCell ? "hsla(210, 80%, 55%, 0.08)" : "transparent",
-                    position: "relative"
+                    position: "relative",
+                    cursor: dayEvents.length > 0 ? "pointer" : "default",
                   }}
                 >
                   {day && (
                     <>
                       <div style={{
                         display: "inline-flex", alignItems: "center", justifyContent: "center",
-                        width: "28px", height: "28px",
+                        width: "24px", height: "24px",
                         borderRadius: "50%",
                         background: todayCell ? "var(--accent)" : "transparent",
                         color: todayCell ? "#fff" : "var(--text-secondary)",
-                        fontSize: "var(--text-sm)", fontWeight: todayCell ? 700 : 400,
-                        marginBottom: "0.3rem"
+                        fontSize: "var(--text-xs)", fontWeight: todayCell ? 700 : 400,
+                        marginBottom: "2px"
                       }}>
                         {day}
                       </div>
-                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
                         {dayEvents.map(ev => (
                           <button
                             key={ev.id}
-                            onClick={() => setSelectedEvent(ev)}
+                            onClick={(e) => { e.stopPropagation(); setSelectedEvent(ev); }}
                             style={{
                               background: ev.color,
                               border: "none",
-                              borderRadius: "4px",
-                              padding: "2px 6px",
-                              fontSize: "0.7rem",
+                              borderRadius: "3px",
+                              padding: "1px 3px",
+                              fontSize: "0.6rem",
                               color: "#fff",
                               fontWeight: 600,
                               cursor: "pointer",
@@ -210,7 +213,7 @@ export default function CalendarPage() {
                               opacity: 0.9
                             }}
                           >
-                            {ev.time} {ev.title}
+                            <span className="cal-event-text">{ev.time} {ev.title}</span>
                           </button>
                         ))}
                       </div>
@@ -224,21 +227,21 @@ export default function CalendarPage() {
 
         {/* Upcoming list */}
         {eventsInMonth.length > 0 && (
-          <div style={{ marginTop: "var(--spacing-md)" }}>
-            <h2 style={{ fontSize: "var(--text-lg)", marginBottom: "var(--spacing-sm)", color: "var(--text-secondary)" }}>
+          <div style={{ marginTop: "var(--spacing-sm)" }}>
+            <h2 style={{ fontSize: "var(--text-lg)", marginBottom: "var(--spacing-xs)", color: "var(--text-secondary)" }}>
               Events im {MONTHS[currentMonth]}
             </h2>
             <div style={{ display: "flex", flexDirection: "column", gap: "var(--spacing-xs)" }}>
               {eventsInMonth.sort((a,b) => a.date.localeCompare(b.date)).map(ev => (
-                <div key={ev.id} onClick={() => setSelectedEvent(ev)} style={{ display: "flex", alignItems: "center", gap: "var(--spacing-sm)", padding: "0.75rem var(--spacing-sm)", background: "var(--glass-bg)", border: "1px solid var(--glass-border)", borderRadius: "var(--radius-sm)", cursor: "pointer", borderLeft: `4px solid ${ev.color}` }}>
-                  <div style={{ flex: 1 }}>
-                    <p style={{ fontWeight: 600 }}>{ev.title}</p>
-                    <p style={{ fontSize: "var(--text-sm)", color: "var(--text-secondary)" }}>
+                <div key={ev.id} onClick={() => setSelectedEvent(ev)} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem", background: "var(--glass-bg)", border: "1px solid var(--glass-border)", borderRadius: "var(--radius-sm)", cursor: "pointer", borderLeft: `4px solid ${ev.color}` }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontWeight: 600, fontSize: "var(--text-sm)" }}>{ev.title}</p>
+                    <p style={{ fontSize: "var(--text-xs)", color: "var(--text-secondary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {new Date(ev.date).toLocaleDateString("de-CH")} · {ev.time}–{ev.endTime} · {ev.location}
                     </p>
                   </div>
-                  <button onClick={(e) => { e.stopPropagation(); generateICS(ev); }} className="btn btn-secondary" style={{ padding: "0.35rem 0.8rem", fontSize: "0.75rem", display: "flex", alignItems: "center", gap: "4px" }}>
-                    <Download size={14} /> .ics
+                  <button onClick={(e) => { e.stopPropagation(); generateICS(ev); }} className="btn btn-secondary" style={{ padding: "0.3rem 0.6rem", fontSize: "0.7rem", display: "flex", alignItems: "center", gap: "4px", flexShrink: 0 }}>
+                    <Download size={12} /> .ics
                   </button>
                 </div>
               ))}
@@ -246,6 +249,8 @@ export default function CalendarPage() {
           </div>
         )}
       </main>
+
+      <MobileNav />
 
       {/* Event Detail Modal */}
       {selectedEvent && (
@@ -257,11 +262,11 @@ export default function CalendarPage() {
             <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: selectedEvent.color, marginBottom: "var(--spacing-sm)", display: "inline-block" }} />
             <h2 style={{ fontSize: "var(--text-xl)", marginBottom: "0.5rem" }}>{selectedEvent.title}</h2>
             <p style={{ color: "var(--text-secondary)", fontSize: "var(--text-sm)", marginBottom: "var(--spacing-sm)" }}>
-              📅 {new Date(selectedEvent.date).toLocaleDateString("de-CH", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
+              {new Date(selectedEvent.date).toLocaleDateString("de-CH", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
               <br/>⏰ {selectedEvent.time}–{selectedEvent.endTime} Uhr
-              <br/>📍 {selectedEvent.location}
+              <br/>{selectedEvent.location}
             </p>
-            <p style={{ color: "var(--text-secondary)", marginBottom: "var(--spacing-md)" }}>{selectedEvent.description}</p>
+            <p style={{ color: "var(--text-secondary)", marginBottom: "var(--spacing-sm)" }}>{selectedEvent.description}</p>
             <button onClick={() => generateICS(selectedEvent)} className="btn btn-primary" style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.4rem" }}>
               <Download size={16} /> In Kalender speichern (.ics)
             </button>
@@ -273,18 +278,18 @@ export default function CalendarPage() {
       {/* Booking Form Modal */}
       {showBookingForm && (
         <div onClick={() => setShowBookingForm(false)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100, padding: "var(--spacing-sm)" }}>
-          <div onClick={e => e.stopPropagation()} className="glass-panel" style={{ maxWidth: "500px", width: "100%", position: "relative" }}>
+          <div onClick={e => e.stopPropagation()} className="glass-panel" style={{ maxWidth: "500px", width: "100%", position: "relative", maxHeight: "90vh", overflowY: "auto" }}>
             <button onClick={() => setShowBookingForm(false)} style={{ position: "absolute", top: "1rem", right: "1rem", background: "transparent", border: "none", cursor: "pointer", color: "var(--text-secondary)" }}>
               <X size={20} />
             </button>
             <h2 style={{ fontSize: "var(--text-xl)", marginBottom: "0.25rem" }}>Raumanmeldung</h2>
-            <p style={{ color: "var(--text-secondary)", fontSize: "var(--text-sm)", marginBottom: "var(--spacing-md)" }}>Trag deine Veranstaltung in den Vereinskalender ein.</p>
+            <p style={{ color: "var(--text-secondary)", fontSize: "var(--text-sm)", marginBottom: "var(--spacing-sm)" }}>Trag deine Veranstaltung in den Vereinskalender ein.</p>
             <form onSubmit={handleBook} style={{ display: "flex", flexDirection: "column", gap: "var(--spacing-sm)" }}>
               <div className="input-group">
                 <label className="input-label">Titel der Veranstaltung *</label>
                 <input className="input-field" type="text" placeholder="z.B. Bandprobe – Gruppe B" required value={form.title} onChange={e => setForm(f => ({...f, title: e.target.value}))} />
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "var(--spacing-sm)" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.5rem" }}>
                 <div className="input-group">
                   <label className="input-label">Datum *</label>
                   <input className="input-field" type="date" required value={form.date} onChange={e => setForm(f => ({...f, date: e.target.value}))} />
@@ -318,6 +323,13 @@ export default function CalendarPage() {
           </div>
         </div>
       )}
+
+      <style dangerouslySetInnerHTML={{__html: `
+        @media (max-width: 480px) {
+          .cal-event-text { font-size: 0 !important; }
+          .cal-event-text::before { content: "•"; font-size: 0.6rem; }
+        }
+      `}} />
     </div>
   );
 }

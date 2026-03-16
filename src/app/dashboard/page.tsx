@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Calendar, CheckCircle, CreditCard, LogOut, Settings, User, XCircle } from "lucide-react";
+import MobileNav from "@/components/MobileNav";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function DashboardPage() {
   // Mock subscription status – will be replaced with Firestore data
   const [subscription] = useState({
     status: "inactive" as "active" | "inactive" | "cancelled",
-    currentPeriodEnd: null as string | null, // e.g. "2027-03-15"
+    currentPeriodEnd: null as string | null,
     cancelAtPeriodEnd: false,
   });
 
@@ -52,15 +53,15 @@ export default function DashboardPage() {
       </aside>
 
       <main className="main-content">
-        <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--spacing-md)" }}>
-          <h1 style={{ fontSize: "var(--text-2xl)", fontWeight: 600 }}>Willkommen, {userName}</h1>
+        <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--spacing-sm)" }}>
+          <h1 style={{ fontSize: "clamp(1.25rem, 4vw, var(--text-2xl))", fontWeight: 600 }}>Willkommen, {userName}</h1>
         </header>
 
-        <div style={{ position: "relative", width: "100%", height: "200px", borderRadius: "var(--radius-md)", overflow: "hidden", marginBottom: "var(--spacing-lg)", boxShadow: "var(--shadow-sm)", border: "1px solid var(--glass-border)" }} className="animate-fade-in delay-200">
+        <div style={{ position: "relative", width: "100%", height: "clamp(120px, 20vw, 200px)", borderRadius: "var(--radius-md)", overflow: "hidden", marginBottom: "var(--spacing-sm)", boxShadow: "var(--shadow-sm)", border: "1px solid var(--glass-border)" }} className="animate-fade-in delay-200">
           <Image src="/hero-image.png" alt="Kulturverein Aare Worblaufen" fill style={{ objectFit: "cover", objectPosition: "center" }} priority />
         </div>
 
-        <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "var(--spacing-md)" }}>
+        <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "var(--spacing-sm)" }}>
           {/* Subscription Status Card */}
           <div className="glass-panel delay-100" style={{ opacity: 0, animation: "fadeIn 500ms ease forwards" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--spacing-sm)" }}>
@@ -109,12 +110,12 @@ export default function DashboardPage() {
               </>
             ) : (
               <>
-                <div style={{ display: "flex", alignItems: "center", gap: "var(--spacing-xs)", color: "var(--text-secondary)", marginBottom: "var(--spacing-md)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "var(--spacing-xs)", color: "var(--text-secondary)", marginBottom: "var(--spacing-sm)" }}>
                   <XCircle size={18} />
                   <span style={{ fontSize: "var(--text-sm)" }}>Noch kein aktives Abo</span>
                 </div>
 
-                <div style={{ padding: "var(--spacing-sm)", background: "rgba(0,0,0,0.15)", borderRadius: "var(--radius-sm)", marginBottom: "var(--spacing-md)", border: "1px solid var(--glass-border)" }}>
+                <div style={{ padding: "var(--spacing-sm)", background: "rgba(0,0,0,0.15)", borderRadius: "var(--radius-sm)", marginBottom: "var(--spacing-sm)", border: "1px solid var(--glass-border)" }}>
                   <p style={{ fontSize: "var(--text-sm)", color: "var(--text-secondary)" }}>
                     Mit einer Jahresmitgliedschaft für <strong style={{ color: "var(--accent)" }}>CHF 190.–</strong> erhältst du vollen Zugang zum Bandraum, Events und Stimmrecht im Verein.
                   </p>
@@ -132,17 +133,19 @@ export default function DashboardPage() {
             <h3 style={{ fontSize: "var(--text-lg)", marginBottom: "var(--spacing-sm)", display: "flex", alignItems: "center", gap: "var(--spacing-xs)" }}>
               <Calendar size={20} color="var(--accent)" /> Nächstes Event
             </h3>
-            <div style={{ padding: "var(--spacing-sm)", background: "rgba(0,0,0,0.2)", borderRadius: "var(--radius-sm)", border: "1px left solid var(--accent)" }}>
+            <div style={{ padding: "var(--spacing-sm)", background: "rgba(0,0,0,0.2)", borderRadius: "var(--radius-sm)", borderLeft: "3px solid var(--accent)" }}>
               <p style={{ color: "var(--accent)", fontSize: "var(--text-sm)", fontWeight: 600, marginBottom: "0.25rem" }}>15. Nov 2026</p>
               <p style={{ fontSize: "var(--text-base)", fontWeight: 500 }}>Generalversammlung</p>
               <p style={{ color: "var(--text-secondary)", fontSize: "var(--text-sm)", marginTop: "0.25rem" }}>18:00 - Gesamthalle</p>
             </div>
-            <Link href="/calendar" className="btn btn-secondary" style={{ marginTop: "var(--spacing-md)", width: "100%" }}>
+            <Link href="/calendar" className="btn btn-secondary" style={{ marginTop: "var(--spacing-sm)", width: "100%" }}>
               Gesamten Kalender ansehen
             </Link>
           </div>
         </section>
       </main>
+
+      <MobileNav />
     </div>
   );
 }

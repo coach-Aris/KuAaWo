@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Settings as SettingsIcon, LogOut, User, Calendar, Save } from "lucide-react";
+import MobileNav from "@/components/MobileNav";
 
 export default function SettingsPage() {
   return (
@@ -12,10 +13,10 @@ export default function SettingsPage() {
           Ku<span style={{ color: "var(--accent)" }}>Aa</span>Wo
         </div>
         <nav style={{ display: "flex", flexDirection: "column", gap: "var(--spacing-sm)" }}>
-          <Link href="/dashboard" style={{ display: "flex", alignItems: "center", gap: "var(--spacing-xs)", color: "var(--text-secondary)", transition: "color 0.2s" }}>
+          <Link href="/dashboard" style={{ display: "flex", alignItems: "center", gap: "var(--spacing-xs)", color: "var(--text-secondary)" }}>
             <User size={18} /> Übersicht
           </Link>
-          <Link href="/calendar" style={{ display: "flex", alignItems: "center", gap: "var(--spacing-xs)", color: "var(--text-secondary)", transition: "color 0.2s" }}>
+          <Link href="/calendar" style={{ display: "flex", alignItems: "center", gap: "var(--spacing-xs)", color: "var(--text-secondary)" }}>
             <Calendar size={18} /> Events & Sitzungen
           </Link>
           <Link href="/settings" style={{ display: "flex", alignItems: "center", gap: "var(--spacing-xs)", color: "var(--accent)", fontWeight: 500 }}>
@@ -23,22 +24,22 @@ export default function SettingsPage() {
           </Link>
         </nav>
         <div style={{ marginTop: "auto" }}>
-          <button style={{ background: "transparent", border: "none", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "var(--spacing-xs)", cursor: "pointer", transition: "color 0.2s" }} onMouseOver={(e) => e.currentTarget.style.color = 'var(--danger)'} onMouseOut={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}>
+          <button style={{ background: "transparent", border: "none", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "var(--spacing-xs)", cursor: "pointer" }}>
             <LogOut size={18} /> Abmelden
           </button>
         </div>
       </aside>
 
       <main className="main-content">
-        <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--spacing-md)" }}>
-          <h1 style={{ fontSize: "var(--text-2xl)", fontWeight: 600 }}>Einstellungen</h1>
+        <header style={{ marginBottom: "var(--spacing-sm)" }}>
+          <h1 style={{ fontSize: "clamp(1.25rem, 4vw, var(--text-2xl))", fontWeight: 600 }}>Einstellungen</h1>
         </header>
 
-        <div style={{ position: "relative", width: "100%", height: "200px", borderRadius: "var(--radius-md)", overflow: "hidden", marginBottom: "var(--spacing-lg)", boxShadow: "var(--shadow-sm)", border: "1px solid var(--glass-border)" }} className="animate-fade-in delay-200">
+        <div style={{ position: "relative", width: "100%", height: "clamp(100px, 15vw, 200px)", borderRadius: "var(--radius-md)", overflow: "hidden", marginBottom: "var(--spacing-sm)", boxShadow: "var(--shadow-sm)", border: "1px solid var(--glass-border)" }} className="animate-fade-in delay-200">
           <Image src="/hero-image.png" alt="Kulturverein Aare Worblaufen" fill style={{ objectFit: "cover", objectPosition: "center" }} priority />
         </div>
 
-        <section style={{ maxWidth: "600px", display: "flex", flexDirection: "column", gap: "var(--spacing-md)" }}>
+        <section style={{ maxWidth: "600px", display: "flex", flexDirection: "column", gap: "var(--spacing-sm)" }}>
           <div className="glass-panel delay-100" style={{ opacity: 0, animation: "fadeIn 500ms ease forwards" }}>
             <h3 style={{ fontSize: "var(--text-lg)", marginBottom: "var(--spacing-sm)" }}>Profil-Details</h3>
             <div className="input-group">
@@ -66,6 +67,8 @@ export default function SettingsPage() {
           </div>
         </section>
       </main>
+
+      <MobileNav />
     </div>
   );
 }
