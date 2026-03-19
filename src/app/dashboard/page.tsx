@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Calendar, CheckCircle, CreditCard, LogOut, Settings, User, XCircle } from "lucide-react";
 import MobileNav from "@/components/MobileNav";
+import LogoIcon from "@/components/LogoIcon";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -31,8 +32,10 @@ export default function DashboardPage() {
   return (
     <div className="dashboard-layout animate-fade-in">
       <aside className="sidebar">
-        <div style={{ fontSize: "var(--text-xl)", fontWeight: 700, letterSpacing: "-1px", marginBottom: "var(--spacing-lg)" }}>
-          Ku<span style={{ color: "var(--accent)" }}>Aa</span>Wo
+        <div style={{ marginBottom: "var(--spacing-lg)" }}>
+          <Link href="/dashboard">
+            <LogoIcon size={48} />
+          </Link>
         </div>
         <nav style={{ display: "flex", flexDirection: "column", gap: "var(--spacing-sm)" }}>
           <Link href="/dashboard" style={{ display: "flex", alignItems: "center", gap: "var(--spacing-xs)", color: "var(--accent)", fontWeight: 500 }}>

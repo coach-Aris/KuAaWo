@@ -358,6 +358,17 @@ a {
 .delay-200 { animation-delay: 200ms; }
 .delay-300 { animation-delay: 300ms; }
 
+/* Hero elements fade in after logo animation */
+.hero-subtitle {
+  animation: fadeIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) 1.8s forwards;
+}
+.hero-location {
+  animation: fadeIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) 2.1s forwards;
+}
+.hero-cta {
+  animation: fadeIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) 2.4s forwards;
+}
+
 /* Custom Dark Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ArrowLeft, Loader2 } from "lucide-react";
+import LogoFull from "@/components/LogoFull";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -43,6 +44,9 @@ export default function LoginPage() {
         <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: "var(--spacing-xs)", color: "var(--text-secondary)", marginBottom: "var(--spacing-md)", fontSize: "var(--text-sm)" }}>
           <ArrowLeft size={16} /> Zurück zur Startseite
         </Link>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: "var(--spacing-sm)" }}>
+          <LogoFull width={200} />
+        </div>
         <h2 style={{ fontSize: "var(--text-2xl)", color: "var(--accent)", marginBottom: "var(--spacing-xs)" }}>Willkommen zurück</h2>
         <p style={{ color: "var(--text-secondary)", marginBottom: "var(--spacing-md)" }}>Melde dich im KuAaWo Mitglieder-Portal an.</p>
 
